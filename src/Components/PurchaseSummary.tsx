@@ -1,8 +1,5 @@
 import { XMarkIcon } from '@heroicons/react/24/solid';
 import { type ExerciseCardData } from '../Data/ExerciseCardData';
-import { useMemo } from 'react';
-import { useAccount, useBalance } from 'wagmi';
-import { parseEther } from 'viem';
 import ErrorsResume from './ErrorsResume';
 
 export interface PurchaseSummaryProps {
@@ -12,37 +9,8 @@ export interface PurchaseSummaryProps {
 
 const PurchaseSummary: React.FC<PurchaseSummaryProps> = ({ onClose, selectedExerciseProp }) => {
     const { name, imageUrl, price, deepDescription } = selectedExerciseProp;
-    const { address, isConnected } = useAccount();
-    const userBalance = useBalance({ address: address });
-    const buyerBalance = userBalance.data?.value;
-    const ethAmountInWei = useMemo(() => parseEther(price), [price]);
 
-    function validatePurchaseRequirements() {
-        if (!isConnected) {
-            alert('Please connect your wallet to purchase this exercise.');
-            return;
-        }
-        //verifica se l'utente ha già acquistato l'esercizio
-        // else if (se il corso è già stato acquistato) {
-        //     alert('You have already purchased this exercise.');
-        //     return;}
-        else if (userBalance.isLoading) {
-            alert('Balance is loading. Please wait.');
-            return;
-        }
-        // verifica se ha abbastanza ETH per acquistare l'esercizio
-        else if (!buyerBalance) {
-            alert('Balance not available.');
-            return;
-        } else if (buyerBalance < ethAmountInWei) {
-            alert('Insufficient balance.');
-            return;
-        }
-    }
-
-    function completePurchase() {
-        validatePurchaseRequirements();
-    }
+    function completePurchase() {}
 
     return (
         <div
@@ -83,7 +51,7 @@ const PurchaseSummary: React.FC<PurchaseSummaryProps> = ({ onClose, selectedExer
                 </button>
             </div>
             <div>
-                <ErrorsResume />
+                <ErrorsResume price={price} />
             </div>
         </div>
     );
