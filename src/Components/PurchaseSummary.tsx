@@ -8,7 +8,7 @@ export interface PurchaseSummaryProps {
 }
 
 const PurchaseSummary: React.FC<PurchaseSummaryProps> = ({ onClose, selectedExerciseProp }) => {
-    const { name, imageUrl, price, deepDescription } = selectedExerciseProp;
+    const { name, imageUrl, price, deepDescription, id } = selectedExerciseProp;
 
     function completePurchase() {}
 
@@ -51,7 +51,7 @@ const PurchaseSummary: React.FC<PurchaseSummaryProps> = ({ onClose, selectedExer
                 </button>
             </div>
             <div>
-                <ErrorsResume price={price} />
+                <ErrorsResume price={price} id={id} />
             </div>
         </div>
     );
