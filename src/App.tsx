@@ -6,7 +6,7 @@ import { useState } from 'react';
 function App() {
     const [currentPage, setCurrentPage] = useState<'gallery' | 'yourProducts'>('gallery');
     return (
-        <div className="bg-[url(/WebSite-Background.jpg)] bg-cover bg-center bg-no-repeat min-h-screen">
+        <div className="bg-[url(/WebSite-Background.jpg)] bg-cover bg-center bg-no-repeat min-h-screen overflow-auto">
             <Header
                 onGalleryClick={() => setCurrentPage('gallery')}
                 onYourProductClick={() => setCurrentPage('yourProducts')}

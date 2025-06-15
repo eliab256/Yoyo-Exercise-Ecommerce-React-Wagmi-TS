@@ -1,5 +1,6 @@
 import { XMarkIcon } from '@heroicons/react/24/solid';
 import { type ExerciseCardData } from '../Data/ExerciseCardData';
+import { useState } from 'react';
 import ErrorsResume from './ErrorsResume';
 
 export interface PurchaseSummaryProps {
@@ -9,8 +10,12 @@ export interface PurchaseSummaryProps {
 
 const PurchaseSummary: React.FC<PurchaseSummaryProps> = ({ onClose, selectedExerciseProp }) => {
     const { name, imageUrl, price, deepDescription, id } = selectedExerciseProp;
+    const [showErrorsResume, setShowErrorsResume] = useState(false);
 
-    function completePurchase() {}
+    function completePurchase() {
+        setShowErrorsResume(true);
+        console.log(showErrorsResume);
+    }
 
     return (
         <div
@@ -50,9 +55,11 @@ const PurchaseSummary: React.FC<PurchaseSummaryProps> = ({ onClose, selectedExer
                     Purchase
                 </button>
             </div>
-            <div>
-                <ErrorsResume price={price} id={id} />
-            </div>
+            {showErrorsResume && (
+                <div className="mt-6 w-full">
+                    <ErrorsResume price={price} id={id} />
+                </div>
+            )}
         </div>
     );
 };

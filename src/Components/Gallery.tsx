@@ -2,10 +2,21 @@ import ExerciseCard from './ExerciseCard';
 import PurchaseSummary from './PurchaseSummary';
 import exercisesCardData from '../Data/ExerciseCardData';
 import { useState } from 'react';
+import { useAccount } from 'wagmi';
+import { usePurchases } from '../Hooks/usePurchases';
 
 const Gallery: React.FC = () => {
     const [currentExerciseIdSelected, setCurrentExerciseIdSelected] = useState<number | null>(null);
     const selectedExercise = exercisesCardData.find(ex => ex.id === currentExerciseIdSelected);
+
+    const { address, isConnected } = useAccount();
+    const { getPurchases } = usePurchases();
+
+    const userPurchases = address && isConnected ? getPurchases(address) : [];
+
+    const checkPurchase = (id: number): boolean => {
+        return userPurchases.includes(id);
+    };
 
     const handleOpenSummary = (id: number) => {
         setCurrentExerciseIdSelected(id);
@@ -28,7 +39,8 @@ const Gallery: React.FC = () => {
                     <ExerciseCard
                         key={exercise.id}
                         exerciseProp={exercise}
-                        onPurchase={() => handleOpenSummary(exercise.id)}
+                        handleClick={() => handleOpenSummary(exercise.id)}
+                        alreadyPurchased={checkPurchase(exercise.id)}
                     />
                 ))}
             </div>
