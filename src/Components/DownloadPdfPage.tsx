@@ -10,16 +10,7 @@ export interface DownloadPageProps {
 const DownloadPage: React.FC<DownloadPageProps> = ({ selectedExerciseProp, transaxtionTx, onClose }) => {
     const { name, id } = selectedExerciseProp;
 
-    const onDownload = async () => {
-        try {
-            const receiptData = PDFCreator.createReceiptData(selectedExerciseProp, transaxtionTx);
-
-            await PDFCreator.downloadExerciseReceipt(receiptData);
-        } catch (error) {
-            console.error('Errore durante il download:', error);
-            alert('Errore durante la generazione del PDF. Riprova.');
-        }
-    };
+    const onDownload = async () => {};
 
     return (
         <div
