@@ -47,7 +47,7 @@ const Gallery: React.FC = () => {
 
             {currentExerciseIdSelected !== null && (
                 <>
-                    <div className="fixed inset-0 bg-black/30 z-40" onClick={handleCloseSummary} />
+                    {/* <div className="fixed inset-0 bg-black/30 z-40" onClick={handleCloseSummary} /> */}
                     <div className="fixed inset-0 z-50 flex justify-center items-center">
                         <PurchaseSummary onClose={handleCloseSummary} selectedExerciseProp={selectedExercise!} />
                     </div>
