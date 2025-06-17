@@ -34,12 +34,19 @@ const ErrorsResume: React.FC<ErrorsResumeProps> = ({ price, id }) => {
 
         const connectionStatus: statusType = isConnected && address ? 'success' : 'error';
 
-        const balanceStatus: statusType =
-            balanceData?.value && balanceData.value >= parseEther(price) ? 'success' : 'error';
+        const balanceStatus: statusType = !isConnected
+            ? null
+            : balanceData?.value && balanceData.value >= parseEther(price)
+            ? 'success'
+            : 'error';
 
-        // Validazione acquisto precedente
-        const userPurchases = address ? getPurchases(address) : [];
-        const alreadyPurchasedStatus: statusType = userPurchases.includes(id) ? 'success' : 'error';
+        const alreadyPurchasedStatus: statusType = !isConnected
+            ? null
+            : address
+            ? !getPurchases(address).includes(id)
+                ? 'success'
+                : 'error'
+            : 'error';
 
         setStatus({
             connection: connectionStatus,
@@ -53,24 +60,22 @@ const ErrorsResume: React.FC<ErrorsResumeProps> = ({ price, id }) => {
     }, [validate]);
 
     return (
-        <div>
-            <div className="fixed bottom-4 right-4 z-50 flex flex-col space-y-2">
-                <ErrorCard
-                    status={status.connection}
-                    alertMessage="No wallet connected. Please connect your wallet to proceed with the purchase"
-                    confirmMessage="Wallet successfully connected. You can now proceed with the purchase"
-                />
-                <ErrorCard
-                    status={status.alreadyPurchased}
-                    alertMessage="You have already purchased this product"
-                    confirmMessage="This product has not been purchased yet and is available for purchase"
-                />
-                <ErrorCard
-                    status={status.balance}
-                    alertMessage="Your balance is not sufficient to complete the purchase"
-                    confirmMessage="Your balance is sufficient to complete the purchase"
-                />
-            </div>
+        <div className="mt-4 w-full flex flex-col flex-grow">
+            <ErrorCard
+                status={status.connection}
+                alertMessage="No wallet connected. Please connect your wallet to proceed with the purchase"
+                confirmMessage="Wallet successfully connected. You can now proceed with the purchase"
+            />
+            <ErrorCard
+                status={status.alreadyPurchased}
+                alertMessage="You have already purchased this product"
+                confirmMessage="This product has not been purchased yet and is available for purchase"
+            />
+            <ErrorCard
+                status={status.balance}
+                alertMessage="Your balance is not sufficient to complete the purchase"
+                confirmMessage="Your balance is sufficient to complete the purchase"
+            />
         </div>
     );
 };

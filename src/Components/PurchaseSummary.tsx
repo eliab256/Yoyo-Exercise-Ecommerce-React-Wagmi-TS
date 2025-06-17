@@ -27,18 +27,18 @@ const PurchaseSummary: React.FC<PurchaseSummaryProps> = ({ onClose, selectedExer
                transition transform duration-150 shadow-md cursor-pointer p-2"
                 onClick={() => onClose()}
             >
-                <XMarkIcon className="h-6 w-6 text-white" />
+                <XMarkIcon className="h-4 w-4 text-white" />
             </div>
 
             <div className="flex flex-col items-center w-full mb-4">
-                <h2 className="text-4xl font-bold text-center">{name}</h2>
+                <h2 className="text-3xl font-bold text-center">{name}</h2>
             </div>
 
-            <div className="flex flex-col items-center w-full mb-4 pt-6">
+            <div className="flex flex-col items-center w-full mb-2 pt-6">
                 <img src={imageUrl} alt={name} className="w-full max-w-[300px] h-auto object-cover rounded-md" />
             </div>
 
-            <div className="flex flex-col items-center w-full mb-4 px-10 py-6 text-lg">
+            <div className="flex flex-col items-center w-full mb-2 px-6 py-4 text-lg">
                 <p className="text-gray-600 text-justify">{deepDescription}</p>
             </div>
 
@@ -56,7 +56,7 @@ const PurchaseSummary: React.FC<PurchaseSummaryProps> = ({ onClose, selectedExer
                 </button>
             </div>
             {showErrorsResume && (
-                <div className="mt-6 w-full">
+                <div>
                     <ErrorsResume price={price} id={id} />
                 </div>
             )}

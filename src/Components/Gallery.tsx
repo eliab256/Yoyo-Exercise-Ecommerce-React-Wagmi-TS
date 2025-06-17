@@ -31,7 +31,7 @@ const Gallery: React.FC = () => {
         <div className="relative">
             <div
                 className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 
-                            px-2 sm:px-4 md:px-6 lg:px-8 xl:px-10 pt-2
+                            px-2 sm:px-4 md:px-6 lg:px-8 xl:px-12 pt-4
                             transition-opacity duration-300
                             ${currentExerciseIdSelected !== null ? 'opacity-50 pointer-events-none' : 'opacity-100'}`}
             >

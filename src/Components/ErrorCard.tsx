@@ -17,7 +17,7 @@ const ErrorCard: React.FC<ErrorCardProps> = ({ status, alertMessage, confirmMess
             return (
                 <div>
                     <div
-                        className="absolute top-4 right-4 bg-blue-500 rounded-full active:scale-95 active:bg-blue-600 
+                        className="bg-blue-500 rounded-full active:scale-95 active:bg-blue-600 
                        transition transform duration-150 shadow-md cursor-pointer p-2"
                     >
                         <LoadingSpinner size="12" color="grey" borderColor="blue" />
@@ -27,27 +27,27 @@ const ErrorCard: React.FC<ErrorCardProps> = ({ status, alertMessage, confirmMess
 
         case 'success':
             return (
-                <div>
+                <div className="flex items-center space-x-2 my-2">
                     <div
-                        className="absolute top-4 right-4 bg-green-500 rounded-full active:scale-95 active:bg-green-600 
+                        className=" bg-green-500 rounded-full active:scale-95 active:bg-green-600 
                        transition transform duration-150 shadow-md cursor-pointer p-2"
                     >
-                        <CheckIcon className="h-6 w-6 text-white" />
+                        <CheckIcon className="h-4 w-4 text-white" />
                     </div>
-                    <p>{confirmMessage}</p>
+                    <p className="text-lg text-green-500 animate-pulse font-bold">{confirmMessage}</p>
                 </div>
             );
 
         case 'error':
             return (
-                <div>
+                <div className="flex items-center space-x-2 my-2">
                     <div
-                        className="absolute top-4 right-4 bg-red-500 rounded-full active:scale-95 active:bg-red-600 
+                        className=" bg-red-500 rounded-full active:scale-95 active:bg-red-600 
                        transition transform duration-150 shadow-md cursor-pointer p-2"
                     >
-                        <XMarkIcon className="h-6 w-6 text-white" />
+                        <XMarkIcon className="h-4 w-4 text-white" />
                     </div>
-                    <p>{alertMessage}</p>
+                    <p className="text-lg text-red-500 animate-pulse font-bold">{alertMessage}</p>
                 </div>
             );
     }
