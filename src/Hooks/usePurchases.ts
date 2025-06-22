@@ -1,40 +1,44 @@
-import { useEffect, useState } from 'react';
-import { type Address } from 'viem';
-
-type PurchasesData = Record<Address, number[]>;
-
-const STORAGE_KEY = 'web3_purchases';
+import { useEffect, useCallback } from 'react';
+import { contractAbi, chainsToContractAddress } from '../Data/SmartContractData';
+import { useReadContract, useWriteContract, useChainId, useAccount } from 'wagmi';
 
 export function usePurchases() {
-    const [purchases, setPurchases] = useState<PurchasesData>({});
+    const { address } = useAccount();
+    const chainId = useChainId();
+    const contractAddress = chainsToContractAddress[chainId].contractAddress;
+    const { data: purchasesListBigInt, refetch } = useReadContract({
+        address: contractAddress,
+        abi: contractAbi,
+        functionName: 'getYourIds',
+    }) as { data: bigint[] | undefined; refetch: () => void };
+    const { writeContract, isPending, isSuccess, error } = useWriteContract();
 
+    // get the purchases from Smart Contract
     useEffect(() => {
-        const savedData = localStorage.getItem(STORAGE_KEY);
-        if (savedData) {
-            try {
-                setPurchases(JSON.parse(savedData) as PurchasesData);
-            } catch (e) {
-                console.error('Error parsing purchases data', e);
-            }
+        if (contractAddress) {
+            refetch();
         }
-    }, []);
+    }, [contractAddress, address, refetch]);
 
-    useEffect(() => {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(purchases));
-    }, [purchases]);
+    const purchasesList = purchasesListBigInt?.map(id => Number(id)) ?? [];
 
     // Add new Purchase
-    const addPurchase = (address: Address, productId: number) => {
-        setPurchases(prev => ({
-            ...prev,
-            [address]: [...(prev[address] || []), productId],
-        }));
-    };
+    const addPurchase = useCallback(
+        async (productId: number) => {
+            try {
+                await writeContract({
+                    address: contractAddress,
+                    abi: contractAbi,
+                    functionName: 'buyExercise',
+                    args: [BigInt(productId)],
+                });
+                await refetch();
+            } catch (err) {
+                console.error('Error adding purchase:', err);
+            }
+        },
+        [writeContract, contractAddress, refetch]
+    );
 
-    // return function
-    const getPurchases = (address: Address): number[] => {
-        return purchases[address] || [];
-    };
-
-    return { purchases, addPurchase, getPurchases };
+    return { purchasesList, addPurchase, isPending, isSuccess, error };
 }

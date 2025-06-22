@@ -6,7 +6,7 @@ import { useState } from 'react';
 function App() {
     const [currentPage, setCurrentPage] = useState<'gallery' | 'yourProducts'>('gallery');
     return (
-        <div className="">
+        <div>
             <Header
                 onGalleryClick={() => setCurrentPage('gallery')}
                 onYourProductClick={() => setCurrentPage('yourProducts')}

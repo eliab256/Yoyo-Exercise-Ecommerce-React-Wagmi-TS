@@ -1,7 +1,11 @@
 import { XMarkIcon } from '@heroicons/react/24/solid';
 import { type ExerciseCardData } from '../Data/ExerciseCardData';
-import { useState } from 'react';
-import ErrorsResume from './ErrorsResume';
+import { useState, useEffect, useCallback } from 'react';
+import ErrorsResume, { type statusType } from './ErrorsResume';
+import { usePublicClient, useWriteContract, useWaitForTransactionReceipt, useConfig } from 'wagmi';
+import { waitForTransactionReceipt } from '@wagmi/core';
+import { type Address } from 'viem';
+import { contractAbi, chainsToContractAddress } from '../Data/SmartContractData';
 
 export interface PurchaseSummaryProps {
     onClose: () => void;
@@ -10,11 +14,56 @@ export interface PurchaseSummaryProps {
 
 const PurchaseSummary: React.FC<PurchaseSummaryProps> = ({ onClose, selectedExerciseProp }) => {
     const { name, imageUrl, price, deepDescription, id } = selectedExerciseProp;
+    // const { writeContractAsync, isPending, isError, data: hash } = useWriteContract();
+    const { writeContractAsync } = useWriteContract();
+    const publicClient = usePublicClient();
+    const chainId = publicClient.chain.id;
     const [showErrorsResume, setShowErrorsResume] = useState(false);
+    const [errorCheckStatus, setErrorCheckStatus] = useState<{
+        connection: statusType;
+        balance: statusType;
+        alreadyPurchased: statusType;
+    } | null>(null);
+
+    const handleStatusChange = useCallback(
+        (statuses: { connection: statusType; balance: statusType; alreadyPurchased: statusType }) => {
+            setErrorCheckStatus(statuses);
+        },
+        []
+    );
+
+    useEffect(() => {
+        if (
+            errorCheckStatus &&
+            errorCheckStatus.connection === 'success' &&
+            errorCheckStatus.balance === 'success' &&
+            errorCheckStatus.alreadyPurchased === 'success'
+        ) {
+            const timer = setTimeout(() => {
+                completePurchase();
+            }, 2000);
+
+            return () => clearTimeout(timer);
+        }
+    }, [errorCheckStatus]);
 
     function completePurchase() {
+        console.log('Acquisto effettuato!');
+        const purchaseHash = writeContractAsync({
+            abi: contractAbi,
+            address: chainsToContractAddress[chainId]?.contractAddress as Address,
+            functionName: 'buyExercise',
+            args: [
+                price, //check della conversione
+                id,
+            ],
+        });
+
+        const purchaseReceipt = waitForTransactionReceipt(useConfig, { hash: purchaseHash });
+    }
+
+    function handleShowErrorResume() {
         setShowErrorsResume(true);
-        console.log(showErrorsResume);
     }
 
     return (
@@ -50,14 +99,14 @@ const PurchaseSummary: React.FC<PurchaseSummaryProps> = ({ onClose, selectedExer
                 <button
                     className="bg-violet-600 text-white px-6 py-2 rounded-lg shadow-md 
                  hover:bg-violet-700 active:bg-violet-800 transition transform duration-150  cursor-pointer"
-                    onClick={() => completePurchase()}
+                    onClick={() => handleShowErrorResume()}
                 >
                     Purchase
                 </button>
             </div>
             {showErrorsResume && (
                 <div>
-                    <ErrorsResume price={price} id={id} />
+                    <ErrorsResume price={price} id={id} onStatusChange={handleStatusChange} />
                 </div>
             )}
         </div>

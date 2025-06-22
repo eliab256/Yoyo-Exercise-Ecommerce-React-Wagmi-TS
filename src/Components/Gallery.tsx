@@ -2,25 +2,22 @@ import ExerciseCard from './ExerciseCard';
 import PurchaseSummary from './PurchaseSummary';
 import exercisesCardData from '../Data/ExerciseCardData';
 import { useState } from 'react';
-import { useAccount } from 'wagmi';
+//import { useAccount } from 'wagmi';
 import { usePurchases } from '../Hooks/usePurchases';
 
 const Gallery: React.FC = () => {
     const [currentExerciseIdSelected, setCurrentExerciseIdSelected] = useState<number | null>(null);
     const selectedExercise = exercisesCardData.find(ex => ex.id === currentExerciseIdSelected);
 
-    const { address, isConnected } = useAccount();
-    const { getPurchases } = usePurchases();
-
-    const userPurchases = address && isConnected ? getPurchases(address) : [];
+    //const { address, isConnected } = useAccount();
+    const { purchasesList } = usePurchases();
 
     const checkPurchase = (id: number): boolean => {
-        return userPurchases.includes(id);
+        return purchasesList.includes(id);
     };
 
     const handleOpenSummary = (id: number) => {
         setCurrentExerciseIdSelected(id);
-        console.log(`Esercizio selezionato con ID: ${id}`);
     };
 
     const handleCloseSummary = () => {
@@ -47,7 +44,6 @@ const Gallery: React.FC = () => {
 
             {currentExerciseIdSelected !== null && (
                 <>
-                    {/* <div className="fixed inset-0 bg-black/30 z-40" onClick={handleCloseSummary} /> */}
                     <div className="fixed inset-0 z-50 flex justify-center items-center">
                         <PurchaseSummary onClose={handleCloseSummary} selectedExerciseProp={selectedExercise!} />
                     </div>

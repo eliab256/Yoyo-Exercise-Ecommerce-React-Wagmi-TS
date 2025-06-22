@@ -1,17 +1,15 @@
+import { type Address } from 'viem';
+
 interface ContractsConfig {
     [chainId: number]: {
-        tokenSender: string;
+        contractAddress: Address;
     };
 }
 
-export const chainsToTokenSender: ContractsConfig = {
-    31337: {
-        //Anvil
-        tokenSender: '',
-    },
+export const chainsToContractAddress: ContractsConfig = {
     11155111: {
         //Sepolia
-        tokenSender: '',
+        contractAddress: '0x1234567890abcdef1234567890abcdef12345678', // Replace with your actual contract address
     },
 };
 
@@ -26,6 +24,11 @@ export const contractAbi = [
         ],
         stateMutability: 'nonpayable',
         type: 'constructor',
+    },
+    {
+        inputs: [],
+        name: 'AlreadyPurchased',
+        type: 'error',
     },
     {
         inputs: [],
@@ -131,6 +134,19 @@ export const contractAbi = [
                 internalType: 'uint256',
                 name: '',
                 type: 'uint256',
+            },
+        ],
+        stateMutability: 'view',
+        type: 'function',
+    },
+    {
+        inputs: [],
+        name: 'getYourIds',
+        outputs: [
+            {
+                internalType: 'uint256[]',
+                name: '',
+                type: 'uint256[]',
             },
         ],
         stateMutability: 'view',

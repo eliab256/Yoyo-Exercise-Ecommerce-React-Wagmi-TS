@@ -8,9 +8,10 @@ export type statusType = 'loading' | 'success' | 'error' | null;
 export interface ErrorsResumeProps {
     price: string;
     id: number;
+    onStatusChange: (statuses: { connection: statusType; balance: statusType; alreadyPurchased: statusType }) => void;
 }
 
-const ErrorsResume: React.FC<ErrorsResumeProps> = ({ price, id }) => {
+const ErrorsResume: React.FC<ErrorsResumeProps> = ({ price, id, onStatusChange }) => {
     const { address, isConnected } = useAccount();
     const { getPurchases } = usePurchases();
     const { data: balanceData } = useBalance({ address });
@@ -26,11 +27,13 @@ const ErrorsResume: React.FC<ErrorsResumeProps> = ({ price, id }) => {
     });
 
     const validate = useCallback(() => {
-        setStatus({
-            connection: 'loading',
-            balance: 'loading',
-            alreadyPurchased: 'loading',
-        });
+        const loadingStatus = {
+            connection: 'loading' as statusType,
+            balance: 'loading' as statusType,
+            alreadyPurchased: 'loading' as statusType,
+        };
+        setStatus(loadingStatus);
+        onStatusChange(loadingStatus);
 
         const connectionStatus: statusType = isConnected && address ? 'success' : 'error';
 
@@ -48,12 +51,15 @@ const ErrorsResume: React.FC<ErrorsResumeProps> = ({ price, id }) => {
                 : 'error'
             : 'error';
 
-        setStatus({
+        const newStatus = {
             connection: connectionStatus,
             balance: balanceStatus,
             alreadyPurchased: alreadyPurchasedStatus,
-        });
-    }, [isConnected, address, balanceData, price, getPurchases, id]);
+        };
+
+        setStatus(newStatus);
+        onStatusChange(newStatus);
+    }, [isConnected, address, balanceData, price, getPurchases, id, onStatusChange]);
 
     useEffect(() => {
         validate();
