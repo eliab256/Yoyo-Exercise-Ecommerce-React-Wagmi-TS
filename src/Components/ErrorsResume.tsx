@@ -13,7 +13,7 @@ export interface ErrorsResumeProps {
 
 const ErrorsResume: React.FC<ErrorsResumeProps> = ({ price, id, onStatusChange }) => {
     const { address, isConnected } = useAccount();
-    const { getPurchases } = usePurchases();
+    const { purchasesList } = usePurchases();
     const { data: balanceData } = useBalance({ address });
 
     const [status, setStatus] = useState<{
@@ -46,7 +46,7 @@ const ErrorsResume: React.FC<ErrorsResumeProps> = ({ price, id, onStatusChange }
         const alreadyPurchasedStatus: statusType = !isConnected
             ? null
             : address
-            ? !getPurchases(address).includes(id)
+            ? !purchasesList.includes(id)
                 ? 'success'
                 : 'error'
             : 'error';
@@ -59,7 +59,7 @@ const ErrorsResume: React.FC<ErrorsResumeProps> = ({ price, id, onStatusChange }
 
         setStatus(newStatus);
         onStatusChange(newStatus);
-    }, [isConnected, address, balanceData, price, getPurchases, id, onStatusChange]);
+    }, [isConnected, address, balanceData, price, purchasesList, id, onStatusChange]);
 
     useEffect(() => {
         validate();

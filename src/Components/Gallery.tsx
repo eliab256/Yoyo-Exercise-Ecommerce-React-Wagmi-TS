@@ -18,6 +18,7 @@ const Gallery: React.FC = () => {
 
     const handleOpenSummary = (id: number) => {
         setCurrentExerciseIdSelected(id);
+        console.log(purchasesList);
     };
 
     const handleCloseSummary = () => {

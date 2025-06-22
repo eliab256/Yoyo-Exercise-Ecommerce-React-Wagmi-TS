@@ -2,10 +2,7 @@ import { XMarkIcon } from '@heroicons/react/24/solid';
 import { type ExerciseCardData } from '../Data/ExerciseCardData';
 import { useState, useEffect, useCallback } from 'react';
 import ErrorsResume, { type statusType } from './ErrorsResume';
-import { usePublicClient, useWriteContract, useWaitForTransactionReceipt, useConfig } from 'wagmi';
-import { waitForTransactionReceipt } from '@wagmi/core';
-import { type Address } from 'viem';
-import { contractAbi, chainsToContractAddress } from '../Data/SmartContractData';
+//import { type Address } from 'viem';
 
 export interface PurchaseSummaryProps {
     onClose: () => void;
@@ -14,10 +11,6 @@ export interface PurchaseSummaryProps {
 
 const PurchaseSummary: React.FC<PurchaseSummaryProps> = ({ onClose, selectedExerciseProp }) => {
     const { name, imageUrl, price, deepDescription, id } = selectedExerciseProp;
-    // const { writeContractAsync, isPending, isError, data: hash } = useWriteContract();
-    const { writeContractAsync } = useWriteContract();
-    const publicClient = usePublicClient();
-    const chainId = publicClient.chain.id;
     const [showErrorsResume, setShowErrorsResume] = useState(false);
     const [errorCheckStatus, setErrorCheckStatus] = useState<{
         connection: statusType;
@@ -49,17 +42,6 @@ const PurchaseSummary: React.FC<PurchaseSummaryProps> = ({ onClose, selectedExer
 
     function completePurchase() {
         console.log('Acquisto effettuato!');
-        const purchaseHash = writeContractAsync({
-            abi: contractAbi,
-            address: chainsToContractAddress[chainId]?.contractAddress as Address,
-            functionName: 'buyExercise',
-            args: [
-                price, //check della conversione
-                id,
-            ],
-        });
-
-        const purchaseReceipt = waitForTransactionReceipt(useConfig, { hash: purchaseHash });
     }
 
     function handleShowErrorResume() {

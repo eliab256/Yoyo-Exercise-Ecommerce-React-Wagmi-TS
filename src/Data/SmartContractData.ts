@@ -9,7 +9,7 @@ interface ContractsConfig {
 export const chainsToContractAddress: ContractsConfig = {
     11155111: {
         //Sepolia
-        contractAddress: '0x1234567890abcdef1234567890abcdef12345678', // Replace with your actual contract address
+        contractAddress: '0xE4a70e31DA7ddcD31929E029e19993e0693363E9',
     },
 };
 
