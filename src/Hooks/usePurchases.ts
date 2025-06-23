@@ -1,4 +1,4 @@
-import { useEffect, useCallback } from 'react';
+import { useEffect, useCallback, useMemo } from 'react';
 import { contractAbi, chainsToContractAddress } from '../Data/SmartContractData';
 import { useReadContract, useWriteContract, useChainId, useAccount } from 'wagmi';
 
@@ -20,7 +20,9 @@ export function usePurchases() {
         }
     }, [contractAddress, address, refetch]);
 
-    const purchasesList = purchasesListBigInt?.map(id => Number(id)) ?? [];
+    const purchasesList = useMemo(() => {
+        return purchasesListBigInt?.map(id => Number(id)) ?? [];
+    }, [purchasesListBigInt]);
 
     // Add new Purchase
     const addPurchase = useCallback(

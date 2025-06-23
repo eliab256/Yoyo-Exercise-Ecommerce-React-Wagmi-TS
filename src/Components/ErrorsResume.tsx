@@ -1,6 +1,6 @@
 import ErrorCard from './ErrorCard';
 import { useAccount, useBalance } from 'wagmi';
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState } from 'react';
 import { parseEther } from 'viem';
 import { usePurchases } from '../Hooks/usePurchases';
 
@@ -26,15 +26,7 @@ const ErrorsResume: React.FC<ErrorsResumeProps> = ({ price, id, onStatusChange }
         alreadyPurchased: null,
     });
 
-    const validate = useCallback(() => {
-        const loadingStatus = {
-            connection: 'loading' as statusType,
-            balance: 'loading' as statusType,
-            alreadyPurchased: 'loading' as statusType,
-        };
-        setStatus(loadingStatus);
-        onStatusChange(loadingStatus);
-
+    useEffect(() => {
         const connectionStatus: statusType = isConnected && address ? 'success' : 'error';
 
         const balanceStatus: statusType = !isConnected
@@ -59,11 +51,7 @@ const ErrorsResume: React.FC<ErrorsResumeProps> = ({ price, id, onStatusChange }
 
         setStatus(newStatus);
         onStatusChange(newStatus);
-    }, [isConnected, address, balanceData, price, purchasesList, id, onStatusChange]);
-
-    useEffect(() => {
-        validate();
-    }, [validate]);
+    }, [isConnected, address, balanceData?.value, price, purchasesList, id, onStatusChange]);
 
     return (
         <div className="mt-4 w-full flex flex-col flex-grow">

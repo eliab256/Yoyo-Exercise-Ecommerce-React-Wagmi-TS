@@ -2,6 +2,7 @@ import { XMarkIcon } from '@heroicons/react/24/solid';
 import { type ExerciseCardData } from '../Data/ExerciseCardData';
 import { useState, useEffect, useCallback } from 'react';
 import ErrorsResume, { type statusType } from './ErrorsResume';
+import { usePurchases } from '../Hooks/usePurchases';
 //import { type Address } from 'viem';
 
 export interface PurchaseSummaryProps {
@@ -17,6 +18,7 @@ const PurchaseSummary: React.FC<PurchaseSummaryProps> = ({ onClose, selectedExer
         balance: statusType;
         alreadyPurchased: statusType;
     } | null>(null);
+    const { addPurchase } = usePurchases();
 
     const handleStatusChange = useCallback(
         (statuses: { connection: statusType; balance: statusType; alreadyPurchased: statusType }) => {
@@ -40,9 +42,10 @@ const PurchaseSummary: React.FC<PurchaseSummaryProps> = ({ onClose, selectedExer
         }
     }, [errorCheckStatus]);
 
-    function completePurchase() {
+    const completePurchase = useCallback(() => {
         console.log('Acquisto effettuato!');
-    }
+        addPurchase(id);
+    }, [addPurchase, id]);
 
     function handleShowErrorResume() {
         setShowErrorsResume(true);
