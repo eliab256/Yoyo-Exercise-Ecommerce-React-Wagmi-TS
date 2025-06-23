@@ -44,8 +44,8 @@ const PurchaseSummary: React.FC<PurchaseSummaryProps> = ({ onClose, selectedExer
 
     const completePurchase = useCallback(() => {
         console.log('Acquisto effettuato!');
-        addPurchase(id);
-    }, [addPurchase, id]);
+        addPurchase(id, price);
+    }, [addPurchase, id, price]);
 
     function handleShowErrorResume() {
         setShowErrorsResume(true);

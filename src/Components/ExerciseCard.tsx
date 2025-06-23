@@ -14,7 +14,7 @@ const ExerciseCard: React.FC<ExerciseCardProps> = ({ exerciseProp, handleClick, 
     const { price: ethPrice } = useEthereumPrice();
 
     const usdPrice = useMemo(() => {
-        const ethAmount = parseFloat(price);
+        const ethAmount = price;
         return ethAmount * ethPrice;
     }, [price, ethPrice]);
 

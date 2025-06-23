@@ -1,6 +1,7 @@
 import { useEffect, useCallback, useMemo } from 'react';
 import { contractAbi, chainsToContractAddress } from '../Data/SmartContractData';
 import { useReadContract, useWriteContract, useChainId, useAccount } from 'wagmi';
+import { parseEther } from 'viem';
 
 export function usePurchases() {
     const { address } = useAccount();
@@ -26,13 +27,14 @@ export function usePurchases() {
 
     // Add new Purchase
     const addPurchase = useCallback(
-        async (productId: number) => {
+        async (productId: number, price: number) => {
             try {
                 await writeContract({
                     address: contractAddress,
                     abi: contractAbi,
                     functionName: 'buyExercise',
-                    args: [BigInt(productId)],
+                    args: [parseEther(price.toString()), BigInt(productId)],
+                    value: parseEther(price.toString()),
                 });
                 await refetch();
             } catch (err) {

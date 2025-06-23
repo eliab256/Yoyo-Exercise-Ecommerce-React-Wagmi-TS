@@ -9,7 +9,7 @@ import DownloadPage from './DownloadPdfPage';
 
 const YourProductsPage: React.FC = () => {
     const { address, isConnected } = useAccount();
-    const { getPurchases } = usePurchases();
+    const { purchasesList } = usePurchases();
     const [purchasedExercises, setPurchasedExercises] = useState<ExerciseCardData[]>([]);
     const [currentExerciseIdSelected, setCurrentExerciseIdSelected] = useState<number | null>(null);
     const [loading, setLoading] = useState(true);
@@ -24,15 +24,14 @@ const YourProductsPage: React.FC = () => {
         }
 
         try {
-            const userPurchases = getPurchases(address) || [];
-            const purchasedExercisesList = exercisesCardData.filter(exercise => userPurchases.includes(exercise.id));
+            const purchasedExercisesList = exercisesCardData.filter(exercise => purchasesList.includes(exercise.id));
             setPurchasedExercises(purchasedExercisesList);
         } catch (error) {
             console.error('Error loading purchases', error);
         } finally {
             setLoading(false);
         }
-    }, [address, getPurchases]);
+    }, [address, purchasesList]);
 
     const hasPurchased = purchasedExercises.length > 0;
 

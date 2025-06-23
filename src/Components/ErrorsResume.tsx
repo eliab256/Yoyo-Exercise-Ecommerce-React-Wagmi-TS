@@ -1,12 +1,11 @@
 import ErrorCard from './ErrorCard';
 import { useAccount, useBalance } from 'wagmi';
 import { useEffect, useState } from 'react';
-import { parseEther } from 'viem';
 import { usePurchases } from '../Hooks/usePurchases';
 
 export type statusType = 'loading' | 'success' | 'error' | null;
 export interface ErrorsResumeProps {
-    price: string;
+    price: number;
     id: number;
     onStatusChange: (statuses: { connection: statusType; balance: statusType; alreadyPurchased: statusType }) => void;
 }
@@ -31,7 +30,7 @@ const ErrorsResume: React.FC<ErrorsResumeProps> = ({ price, id, onStatusChange }
 
         const balanceStatus: statusType = !isConnected
             ? null
-            : balanceData?.value && balanceData.value >= parseEther(price)
+            : balanceData?.value && balanceData.value >= price * 1e18
             ? 'success'
             : 'error';
 
