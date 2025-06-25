@@ -86,8 +86,8 @@ const PurchaseSummary: React.FC<PurchaseSummaryProps> = ({ onClose, selectedExer
             {!isPending && (
                 <div className="flex flex-col items-center w-full">
                     <button
-                        className="bg-violet-600 text-white px-6 py-2 rounded-lg shadow-md 
-                 hover:bg-violet-700 active:bg-violet-800 transition transform duration-150  cursor-pointer"
+                        className="bg-violet-600 text-white text-lg px-8 py-3 rounded-xl shadow-md 
+                    hover:bg-violet-700 active:bg-violet-800 transition transform duration-150 cursor-pointer"
                         onClick={() => handleShowErrorResume()}
                     >
                         Purchase

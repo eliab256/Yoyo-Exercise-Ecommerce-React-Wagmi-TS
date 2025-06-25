@@ -26,7 +26,6 @@ const YourProductsPage: React.FC = () => {
         try {
             const purchasedExercisesList = exercisesCardData.filter(exercise => purchasesList.includes(exercise.id));
             setPurchasedExercises(purchasedExercisesList);
-            console.log('Purchased exercises:', purchasesList);
         } catch (error) {
             console.error('Error loading purchases', error);
         } finally {
@@ -70,7 +69,6 @@ const YourProductsPage: React.FC = () => {
                             <ExerciseCard
                                 key={exercise.id}
                                 exerciseProp={exercise}
-                                alreadyPurchased={true}
                                 handleClick={() => handleOpenDownloadPage(exercise.id)}
                             />
                         ))}

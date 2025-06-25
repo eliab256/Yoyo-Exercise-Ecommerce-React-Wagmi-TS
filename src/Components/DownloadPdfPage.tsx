@@ -8,7 +8,7 @@ export interface DownloadPageProps {
 }
 
 const DownloadPage: React.FC<DownloadPageProps> = ({ selectedExerciseProp, transactionTx, onClose }) => {
-    const { name, id } = selectedExerciseProp;
+    const { name, imageUrl, id } = selectedExerciseProp;
 
     const onDownload = async () => {};
 
@@ -25,14 +25,19 @@ const DownloadPage: React.FC<DownloadPageProps> = ({ selectedExerciseProp, trans
                 <XMarkIcon className="h-6 w-6 text-white" />
             </div>
 
-            <div className="flex flex-col items-center w-full mb-4">
+            <div className="flex flex-col items-center w-full mb-10">
                 <h2 className="text-4xl font-bold text-center">{name}</h2>
             </div>
+            <img src={imageUrl} alt={name} className="w-full max-w-[400px] h-auto object-cover rounded-md mb-10" />
+            <p className="text-gray-600 mb-4 text-center mx-30">
+                This is the download page for your exercise. You can download the receipt and bring it to our center to
+                access the corresponding exercises.
+            </p>
             <span className="absolute bottom-2 left-2 text-xs text-gray-400">Id: {id}</span>
-            <div className="flex flex-col items-center w-full">
+            <div className="flex flex-col items-center w-full mt-10">
                 <button
-                    className="bg-violet-600 text-white px-6 py-2 rounded-lg shadow-md 
-                 hover:bg-violet-700 active:bg-violet-800 transition transform duration-150  cursor-pointer"
+                    className="bg-violet-600 text-white text-lg px-8 py-3 rounded-xl shadow-md 
+                    hover:bg-violet-700 active:bg-violet-800 transition transform duration-150 cursor-pointer"
                     onClick={() => onDownload()}
                 >
                     Download

@@ -3,6 +3,8 @@ import { useMemo } from 'react';
 import { type ExerciseCardData } from '../Data/ExerciseCardData';
 import { ShoppingCartIcon } from '@heroicons/react/24/solid';
 import { usePurchases } from '../Hooks/usePurchases';
+import { useSelector } from 'react-redux';
+import { type PageState } from '../redux/pagesSlice';
 
 export interface ExerciseCardProps {
     exerciseProp: ExerciseCardData;
@@ -13,6 +15,9 @@ const ExerciseCard: React.FC<ExerciseCardProps> = ({ exerciseProp, handleClick }
     const { name, description, imageUrl, price, id, deepDescription } = exerciseProp;
     const { price: ethPrice } = useEthereumPrice();
     const { purchasesList } = usePurchases();
+    const currentOpenPage = useSelector(
+        (state: { currentPage: { currentPage: PageState } }) => state.currentPage.currentPage
+    );
 
     const alreadyPurchased = useMemo(() => purchasesList.includes(id), [purchasesList, id]);
 
@@ -41,12 +46,19 @@ const ExerciseCard: React.FC<ExerciseCardProps> = ({ exerciseProp, handleClick }
                     <p className="font-bold text-zinc-600 mb-6">≈ {usdPrice} $</p>
                 </>
             )}
-            {alreadyPurchased && (
+            {alreadyPurchased && currentOpenPage === 'gallery' && (
+                <>
+                    <p className="text-gray-600 mb-2">{description}</p>
+                    <p className="font-bold text-violet-600 mb-6">{price} ETH</p>
+                    <p className="font-bold text-zinc-600 mb-6">≈ {usdPrice} $</p>
+                    <div className="absolute bottom-2 right-2 color-violet-600">
+                        <ShoppingCartIcon className="w-10 h-10"></ShoppingCartIcon>
+                    </div>
+                </>
+            )}
+            {alreadyPurchased && currentOpenPage === 'yourProducts' && (
                 <>
                     <p className="text-gray-600 mb-2">{deepDescription}</p>
-                    <div className="absolute bottom-2 right-2">
-                        <ShoppingCartIcon></ShoppingCartIcon>
-                    </div>
                 </>
             )}
             <span className="absolute bottom-2 left-2 text-xs text-gray-400">Id: {id}</span>
