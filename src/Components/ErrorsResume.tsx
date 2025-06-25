@@ -2,6 +2,7 @@ import ErrorCard from './ErrorCard';
 import { useAccount, useBalance } from 'wagmi';
 import { useEffect, useState } from 'react';
 import { usePurchases } from '../Hooks/usePurchases';
+import { parseEther } from 'viem';
 
 export type statusType = 'loading' | 'success' | 'error' | null;
 export interface ErrorsResumeProps {
@@ -13,34 +14,43 @@ export interface ErrorsResumeProps {
 const ErrorsResume: React.FC<ErrorsResumeProps> = ({ price, id, onStatusChange }) => {
     const { address, isConnected } = useAccount();
     const { purchasesList } = usePurchases();
-    const { data: balanceData } = useBalance({ address });
+    const { data: balanceData, isLoading: isBalanceLoading } = useBalance({
+        address,
+        query: { enabled: !!address },
+    });
 
     const [status, setStatus] = useState<{
         connection: statusType;
         balance: statusType;
         alreadyPurchased: statusType;
     }>({
-        connection: null,
-        balance: null,
-        alreadyPurchased: null,
+        connection: 'loading',
+        balance: 'loading',
+        alreadyPurchased: 'loading',
     });
 
     useEffect(() => {
+        // 1. Connection Status
         const connectionStatus: statusType = isConnected && address ? 'success' : 'error';
 
-        const balanceStatus: statusType = !isConnected
-            ? null
-            : balanceData?.value && balanceData.value >= price * 1e18
-            ? 'success'
-            : 'error';
+        // 2. Balance Status
+        let balanceStatus: statusType;
+        if (!isConnected || !address) {
+            balanceStatus = null;
+        } else if (isBalanceLoading || balanceData === undefined) {
+            balanceStatus = 'loading';
+        } else {
+            const priceInWei = parseEther(price.toString());
+            balanceStatus = balanceData.value >= priceInWei ? 'success' : 'error';
+        }
 
-        const alreadyPurchasedStatus: statusType = !isConnected
-            ? null
-            : address
-            ? !purchasesList.includes(id)
-                ? 'success'
-                : 'error'
-            : 'error';
+        // 3. Already Purchased Status
+        let alreadyPurchasedStatus: statusType;
+        if (!isConnected || !address) {
+            alreadyPurchasedStatus = null;
+        } else {
+            alreadyPurchasedStatus = !purchasesList.includes(id) ? 'success' : 'error';
+        }
 
         const newStatus = {
             connection: connectionStatus,
@@ -50,7 +60,7 @@ const ErrorsResume: React.FC<ErrorsResumeProps> = ({ price, id, onStatusChange }
 
         setStatus(newStatus);
         onStatusChange(newStatus);
-    }, [isConnected, address, balanceData?.value, price, purchasesList, id, onStatusChange]);
+    }, [isConnected, address, balanceData, isBalanceLoading, price, purchasesList, id, onStatusChange]);
 
     return (
         <div className="mt-4 w-full flex flex-col flex-grow">

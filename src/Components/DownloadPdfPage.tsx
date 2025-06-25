@@ -3,11 +3,11 @@ import { XMarkIcon } from '@heroicons/react/24/solid';
 
 export interface DownloadPageProps {
     selectedExerciseProp: ExerciseCardData;
-    transaxtionTx: number;
+    transactionTx: number;
     onClose: () => void;
 }
 
-const DownloadPage: React.FC<DownloadPageProps> = ({ selectedExerciseProp, transaxtionTx, onClose }) => {
+const DownloadPage: React.FC<DownloadPageProps> = ({ selectedExerciseProp, transactionTx, onClose }) => {
     const { name, id } = selectedExerciseProp;
 
     const onDownload = async () => {};

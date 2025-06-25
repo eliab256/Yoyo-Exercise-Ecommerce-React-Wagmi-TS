@@ -16,7 +16,7 @@ const exercisesBase = [
             'A package designed to start your day with energy and mindfulness. Gentle sequences for muscle awakening and guided breathing.',
         deepDescription:
             'Start your mornings with intention through a curated sequence of yoga practices that blend gentle stretching, mindful breathing, and energy-balancing poses. This program is designed to gradually awaken your body and mind, promote healthy circulation, and cultivate mental clarity before diving into daily tasks. Ideal for beginners and those seeking a soft yet effective start to the day, each session helps establish a grounded and positive rhythm. Includes 3 morning sessions of 20 minutes with gentle movements to awaken the body, guided breathing, and short meditations to begin the day mindfully.',
-        price: 0.01,
+        price: 0.001,
     },
     {
         name: 'Flex & Flow',
@@ -24,7 +24,7 @@ const exercisesBase = [
             "Improve your body's flexibility and fluidity with sequences combining deep stretching and dynamic vinyasa movements.",
         deepDescription:
             'This course is designed for practitioners aiming to enhance their range of motion, joint mobility, and overall body fluidity. By combining static stretches that target major muscle groups with dynamic vinyasa flows, each session encourages a full-body release. The practice emphasizes coordination, breath awareness, and progressive posture challenges, making it ideal for intermediate users or those wanting to deepen their mobility and fluid transition between movements. Features 4 sessions focused on flexibility, including deep stretches and dynamic vinyasa flows targeting hips, shoulders, and spine.',
-        price: 0.02,
+        price: 0.002,
     },
     {
         name: 'Stress Relief Essentials',

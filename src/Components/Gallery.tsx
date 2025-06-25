@@ -2,16 +2,10 @@ import ExerciseCard from './ExerciseCard';
 import PurchaseSummary from './PurchaseSummary';
 import exercisesCardData from '../Data/ExerciseCardData';
 import { useState } from 'react';
-import { usePurchases } from '../Hooks/usePurchases';
 
 const Gallery: React.FC = () => {
     const [currentExerciseIdSelected, setCurrentExerciseIdSelected] = useState<number | null>(null);
     const selectedExercise = exercisesCardData.find(ex => ex.id === currentExerciseIdSelected);
-    const { purchasesList } = usePurchases();
-
-    const checkPurchase = (id: number): boolean => {
-        return purchasesList.includes(id);
-    };
 
     const handleOpenSummary = (id: number) => {
         setCurrentExerciseIdSelected(id);
@@ -24,7 +18,7 @@ const Gallery: React.FC = () => {
     return (
         <div className="relative">
             <div
-                className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 
+                className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6
                             px-2 sm:px-4 md:px-6 lg:px-8 xl:px-12 pt-4
                             transition-opacity duration-300
                             ${currentExerciseIdSelected !== null ? 'opacity-50 pointer-events-none' : 'opacity-100'}`}
@@ -34,7 +28,6 @@ const Gallery: React.FC = () => {
                         key={exercise.id}
                         exerciseProp={exercise}
                         handleClick={() => handleOpenSummary(exercise.id)}
-                        alreadyPurchased={checkPurchase(exercise.id)}
                     />
                 ))}
             </div>

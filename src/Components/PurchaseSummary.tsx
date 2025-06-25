@@ -3,6 +3,7 @@ import { type ExerciseCardData } from '../Data/ExerciseCardData';
 import { useState, useEffect, useCallback } from 'react';
 import ErrorsResume, { type statusType } from './ErrorsResume';
 import { usePurchases } from '../Hooks/usePurchases';
+import LoadingSpinner from './LoadingSpinner';
 //import { type Address } from 'viem';
 
 export interface PurchaseSummaryProps {
@@ -18,7 +19,7 @@ const PurchaseSummary: React.FC<PurchaseSummaryProps> = ({ onClose, selectedExer
         balance: statusType;
         alreadyPurchased: statusType;
     } | null>(null);
-    const { addPurchase } = usePurchases();
+    const { addPurchase, isPending } = usePurchases();
 
     const handleStatusChange = useCallback(
         (statuses: { connection: statusType; balance: statusType; alreadyPurchased: statusType }) => {
@@ -28,6 +29,11 @@ const PurchaseSummary: React.FC<PurchaseSummaryProps> = ({ onClose, selectedExer
     );
 
     useEffect(() => {
+        setErrorCheckStatus(null);
+        setShowErrorsResume(false);
+    }, [id]);
+
+    useEffect(() => {
         if (
             errorCheckStatus &&
             errorCheckStatus.connection === 'success' &&
@@ -35,17 +41,14 @@ const PurchaseSummary: React.FC<PurchaseSummaryProps> = ({ onClose, selectedExer
             errorCheckStatus.alreadyPurchased === 'success'
         ) {
             const timer = setTimeout(() => {
-                completePurchase();
+                console.log('Acquisto effettuato!');
+                addPurchase(id, price);
+                setErrorCheckStatus(null);
             }, 2000);
 
             return () => clearTimeout(timer);
         }
     }, [errorCheckStatus]);
-
-    const completePurchase = useCallback(() => {
-        console.log('Acquisto effettuato!');
-        addPurchase(id, price);
-    }, [addPurchase, id, price]);
 
     function handleShowErrorResume() {
         setShowErrorsResume(true);
@@ -80,18 +83,27 @@ const PurchaseSummary: React.FC<PurchaseSummaryProps> = ({ onClose, selectedExer
                 <p className="font-bold text-violet-600">Price: {price} ETH</p>
             </div>
 
-            <div className="flex flex-col items-center w-full">
-                <button
-                    className="bg-violet-600 text-white px-6 py-2 rounded-lg shadow-md 
+            {!isPending && (
+                <div className="flex flex-col items-center w-full">
+                    <button
+                        className="bg-violet-600 text-white px-6 py-2 rounded-lg shadow-md 
                  hover:bg-violet-700 active:bg-violet-800 transition transform duration-150  cursor-pointer"
-                    onClick={() => handleShowErrorResume()}
-                >
-                    Purchase
-                </button>
-            </div>
-            {showErrorsResume && (
+                        onClick={() => handleShowErrorResume()}
+                    >
+                        Purchase
+                    </button>
+                </div>
+            )}
+            {showErrorsResume && !isPending && (
                 <div>
                     <ErrorsResume price={price} id={id} onStatusChange={handleStatusChange} />
+                </div>
+            )}
+
+            {isPending && (
+                <div className="mt-6 flex flex-col items-center">
+                    <LoadingSpinner />
+                    <p className="mt-2 text-gray-600">Transaction in progress... please wait.</p>
                 </div>
             )}
         </div>

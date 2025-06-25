@@ -2,23 +2,27 @@ import { useEthereumPrice } from '../Hooks/useEthereumPrice';
 import { useMemo } from 'react';
 import { type ExerciseCardData } from '../Data/ExerciseCardData';
 import { ShoppingCartIcon } from '@heroicons/react/24/solid';
+import { usePurchases } from '../Hooks/usePurchases';
 
 export interface ExerciseCardProps {
     exerciseProp: ExerciseCardData;
     handleClick: (id: number) => void;
-    alreadyPurchased: boolean;
 }
 
-const ExerciseCard: React.FC<ExerciseCardProps> = ({ exerciseProp, handleClick, alreadyPurchased }) => {
+const ExerciseCard: React.FC<ExerciseCardProps> = ({ exerciseProp, handleClick }) => {
     const { name, description, imageUrl, price, id, deepDescription } = exerciseProp;
     const { price: ethPrice } = useEthereumPrice();
+    const { purchasesList } = usePurchases();
+
+    const alreadyPurchased = useMemo(() => purchasesList.includes(id), [purchasesList, id]);
 
     const usdPrice = useMemo(() => {
-        const ethAmount = price;
-        return ethAmount * ethPrice;
+        try {
+            return (price * ethPrice).toFixed(2);
+        } catch {
+            return '0.00';
+        }
     }, [price, ethPrice]);
-
-    const formattedUsdPrice = useMemo(() => usdPrice.toFixed(2), [usdPrice]);
 
     return (
         <div
@@ -34,7 +38,7 @@ const ExerciseCard: React.FC<ExerciseCardProps> = ({ exerciseProp, handleClick, 
                 <>
                     <p className="text-gray-600 mb-2">{description}</p>
                     <p className="font-bold text-violet-600 mb-6">{price} ETH</p>
-                    <p className="font-bold text-zinc-600 mb-6">{formattedUsdPrice} $</p>
+                    <p className="font-bold text-zinc-600 mb-6">≈ {usdPrice} $</p>
                 </>
             )}
             {alreadyPurchased && (
