@@ -1,19 +1,14 @@
 import ExerciseCard from './ExerciseCard';
 import PurchaseSummary from './PurchaseSummary';
 import exercisesCardData from '../Data/ExerciseCardData';
-import { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { type ExerciseId } from '../redux/selectedExerciseSlice';
 
 const Gallery: React.FC = () => {
-    const [currentExerciseIdSelected, setCurrentExerciseIdSelected] = useState<number | null>(null);
+    const currentExerciseIdSelected = useSelector(
+        (state: { selectedExercise: { id: ExerciseId } }) => state.selectedExercise.id
+    );
     const selectedExercise = exercisesCardData.find(ex => ex.id === currentExerciseIdSelected);
-
-    const handleOpenSummary = (id: number) => {
-        setCurrentExerciseIdSelected(id);
-    };
-
-    const handleCloseSummary = () => {
-        setCurrentExerciseIdSelected(null);
-    };
 
     return (
         <div className="relative">
@@ -24,18 +19,14 @@ const Gallery: React.FC = () => {
                             ${currentExerciseIdSelected !== null ? 'opacity-50 pointer-events-none' : 'opacity-100'}`}
             >
                 {exercisesCardData.map(exercise => (
-                    <ExerciseCard
-                        key={exercise.id}
-                        exerciseProp={exercise}
-                        handleClick={() => handleOpenSummary(exercise.id)}
-                    />
+                    <ExerciseCard key={exercise.id} exerciseProp={exercise} />
                 ))}
             </div>
 
             {currentExerciseIdSelected !== null && (
                 <>
                     <div className="fixed inset-0 z-50 flex justify-center items-center">
-                        <PurchaseSummary onClose={handleCloseSummary} selectedExerciseProp={selectedExercise!} />
+                        <PurchaseSummary selectedExerciseProp={selectedExercise!} />
                     </div>
                 </>
             )}

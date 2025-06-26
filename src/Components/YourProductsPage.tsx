@@ -6,14 +6,18 @@ import { type ExerciseCardData } from '../Data/ExerciseCardData';
 import ExerciseCard from './ExerciseCard';
 import LoadingSpinner from './LoadingSpinner';
 import DownloadPage from './DownloadPdfPage';
+import { useSelector } from 'react-redux';
+import { type ExerciseId } from '../redux/selectedExerciseSlice';
 
 const YourProductsPage: React.FC = () => {
     const { address, isConnected } = useAccount();
     const { purchasesList } = usePurchases();
     const [purchasedExercises, setPurchasedExercises] = useState<ExerciseCardData[]>([]);
-    const [currentExerciseIdSelected, setCurrentExerciseIdSelected] = useState<number | null>(null);
     const [loading, setLoading] = useState(true);
 
+    const currentExerciseIdSelected = useSelector(
+        (state: { selectedExercise: { id: ExerciseId } }) => state.selectedExercise.id
+    );
     const selectedExercise = exercisesCardData.find(ex => ex.id === currentExerciseIdSelected);
 
     useEffect(() => {
@@ -34,14 +38,6 @@ const YourProductsPage: React.FC = () => {
     }, [address, purchasesList]);
 
     const hasPurchased = purchasedExercises.length > 0;
-
-    const handleOpenDownloadPage = (id: number) => {
-        setCurrentExerciseIdSelected(id);
-    };
-
-    const handleCloseDownloadPage = () => {
-        setCurrentExerciseIdSelected(null);
-    };
 
     return (
         <div>
@@ -66,11 +62,7 @@ const YourProductsPage: React.FC = () => {
                             transition-opacity duration-300 "
                     >
                         {purchasedExercises.map(exercise => (
-                            <ExerciseCard
-                                key={exercise.id}
-                                exerciseProp={exercise}
-                                handleClick={() => handleOpenDownloadPage(exercise.id)}
-                            />
+                            <ExerciseCard key={exercise.id} exerciseProp={exercise} />
                         ))}
                     </div>
                 )}
@@ -80,11 +72,7 @@ const YourProductsPage: React.FC = () => {
             {selectedExercise && (
                 <>
                     <div className="fixed inset-0 z-50 flex justify-center items-center">
-                        <DownloadPage
-                            onClose={handleCloseDownloadPage}
-                            selectedExerciseProp={selectedExercise}
-                            transactionTx={1}
-                        />
+                        <DownloadPage selectedExerciseProp={selectedExercise} transactionTx={1} />
                     </div>
                 </>
             )}

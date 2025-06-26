@@ -5,13 +5,15 @@ import { ShoppingCartIcon } from '@heroicons/react/24/solid';
 import { usePurchases } from '../Hooks/usePurchases';
 import { useSelector } from 'react-redux';
 import { type PageState } from '../redux/pagesSlice';
+import { useDispatch } from 'react-redux';
+import { setSelectedExercise } from '../redux/selectedExerciseSlice';
 
 export interface ExerciseCardProps {
     exerciseProp: ExerciseCardData;
-    handleClick: (id: number) => void;
 }
 
-const ExerciseCard: React.FC<ExerciseCardProps> = ({ exerciseProp, handleClick }) => {
+const ExerciseCard: React.FC<ExerciseCardProps> = ({ exerciseProp }) => {
+    const dispatch = useDispatch();
     const { name, description, imageUrl, price, id, deepDescription } = exerciseProp;
     const { price: ethPrice } = useEthereumPrice();
     const { purchasesList } = usePurchases();
@@ -31,7 +33,7 @@ const ExerciseCard: React.FC<ExerciseCardProps> = ({ exerciseProp, handleClick }
 
     return (
         <div
-            onClick={() => handleClick(id)}
+            onClick={() => dispatch(setSelectedExercise(id))}
             role="button"
             className={`p-4 rounded-xl bg-violet-100 relative flex flex-col items-center text-center shadow-lg transition-all 
                 hover:bg-violet-200 active:bg-violet-300 shadow-green-200 cursor-pointer

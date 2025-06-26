@@ -4,16 +4,18 @@ import { useState, useEffect, useCallback } from 'react';
 import ErrorsResume, { type statusType } from './ErrorsResume';
 import { usePurchases } from '../Hooks/usePurchases';
 import LoadingSpinner from './LoadingSpinner';
-//import { type Address } from 'viem';
+import { useDispatch } from 'react-redux';
+import { clearSelectedExercise } from '../redux/selectedExerciseSlice';
 
 export interface PurchaseSummaryProps {
-    onClose: () => void;
     selectedExerciseProp: ExerciseCardData;
 }
 
-const PurchaseSummary: React.FC<PurchaseSummaryProps> = ({ onClose, selectedExerciseProp }) => {
+const PurchaseSummary: React.FC<PurchaseSummaryProps> = ({ selectedExerciseProp }) => {
+    const dispatch = useDispatch();
     const { name, imageUrl, price, deepDescription, id } = selectedExerciseProp;
     const [showErrorsResume, setShowErrorsResume] = useState(false);
+    const [hasPurchased, setHasPurchased] = useState(false);
     const [errorCheckStatus, setErrorCheckStatus] = useState<{
         connection: statusType;
         balance: statusType;
@@ -31,6 +33,7 @@ const PurchaseSummary: React.FC<PurchaseSummaryProps> = ({ onClose, selectedExer
     useEffect(() => {
         setErrorCheckStatus(null);
         setShowErrorsResume(false);
+        setHasPurchased(false);
     }, [id]);
 
     useEffect(() => {
@@ -38,20 +41,23 @@ const PurchaseSummary: React.FC<PurchaseSummaryProps> = ({ onClose, selectedExer
             errorCheckStatus &&
             errorCheckStatus.connection === 'success' &&
             errorCheckStatus.balance === 'success' &&
-            errorCheckStatus.alreadyPurchased === 'success'
+            errorCheckStatus.alreadyPurchased === 'success' &&
+            !hasPurchased
         ) {
             const timer = setTimeout(() => {
                 console.log('Acquisto effettuato!');
                 addPurchase(id, price);
                 setErrorCheckStatus(null);
-            }, 2000);
+                setHasPurchased(true);
+            }, 1500);
 
             return () => clearTimeout(timer);
         }
-    }, [errorCheckStatus]);
+    }, [errorCheckStatus, id, price, hasPurchased, addPurchase]);
 
     function handleShowErrorResume() {
         setShowErrorsResume(true);
+        setHasPurchased(false);
     }
 
     return (
@@ -62,7 +68,7 @@ const PurchaseSummary: React.FC<PurchaseSummaryProps> = ({ onClose, selectedExer
             <div
                 className="absolute top-4 right-4 bg-red-500 rounded-full active:scale-95 active:bg-red-600 
                transition transform duration-150 shadow-md cursor-pointer p-2"
-                onClick={() => onClose()}
+                onClick={() => dispatch(clearSelectedExercise())}
             >
                 <XMarkIcon className="h-4 w-4 text-white" />
             </div>

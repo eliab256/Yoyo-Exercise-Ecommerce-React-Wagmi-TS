@@ -1,14 +1,16 @@
 import { type ExerciseCardData } from '../Data/ExerciseCardData';
 import { XMarkIcon } from '@heroicons/react/24/solid';
+import { useDispatch } from 'react-redux';
+import { clearSelectedExercise } from '../redux/selectedExerciseSlice';
 
 export interface DownloadPageProps {
     selectedExerciseProp: ExerciseCardData;
     transactionTx: number;
-    onClose: () => void;
 }
 
-const DownloadPage: React.FC<DownloadPageProps> = ({ selectedExerciseProp, transactionTx, onClose }) => {
+const DownloadPage: React.FC<DownloadPageProps> = ({ selectedExerciseProp, transactionTx }) => {
     const { name, imageUrl, id } = selectedExerciseProp;
+    const dispatch = useDispatch();
 
     const onDownload = async () => {};
 
@@ -20,7 +22,7 @@ const DownloadPage: React.FC<DownloadPageProps> = ({ selectedExerciseProp, trans
             <div
                 className="absolute top-4 right-4 bg-red-500 rounded-full active:scale-95 active:bg-red-600 
                transition transform duration-150 shadow-md cursor-pointer p-2"
-                onClick={() => onClose()}
+                onClick={() => dispatch(clearSelectedExercise())}
             >
                 <XMarkIcon className="h-6 w-6 text-white" />
             </div>

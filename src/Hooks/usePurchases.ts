@@ -52,7 +52,6 @@ export function usePurchases() {
                     args: [parseEther(price.toString()), BigInt(productId)],
                     value: parseEther(price.toString()),
                 });
-                refetch?.();
             } catch (err) {
                 console.error('Error adding purchase:', err);
                 throw err;
