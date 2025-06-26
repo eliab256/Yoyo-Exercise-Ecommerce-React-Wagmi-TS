@@ -26,7 +26,6 @@ const YourProductsPage: React.FC = () => {
             setLoading(false);
             return;
         }
-
         try {
             const purchasedExercisesList = exercisesCardData.filter(exercise => purchasesList.includes(exercise.id));
             setPurchasedExercises(purchasedExercisesList);
@@ -44,8 +43,13 @@ const YourProductsPage: React.FC = () => {
             <div>
                 {/* wallet is not connected */}
                 {!isConnected && (
-                    <div className="flex justify-center items-center h-64">
-                        Please connect your wallet to view your products.
+                    <div className="relative flex justify-center items-center min-h-[50vh] px-4 animate-pulse ">
+                        <div className="border-red-500 border-2 bg-white  rounded-2xl shadow-lg p-6 w-full max-w-md text-center">
+                            <h2 className="text-xl md:text-2xl font-semibold text-red-700 mb-2">
+                                Wallet not connected
+                            </h2>
+                            <p className="text-red-600">Please connect your wallet to view your products.</p>
+                        </div>
                     </div>
                 )}
                 {/* wallet is connected and website is loading*/}
@@ -67,12 +71,21 @@ const YourProductsPage: React.FC = () => {
                     </div>
                 )}
                 {/* wallet is connected but the user hasn't never bought a product */}
-                {isConnected && address && !hasPurchased && !loading && <div>Haven't bought anything yet</div>}
+                {isConnected && address && !hasPurchased && !loading && (
+                    <div className="relative flex justify-center items-center min-h-[50vh] px-4 animate-pulse ">
+                        <div className="border-red-500 border-2 bg-white  rounded-2xl shadow-lg p-6 w-full max-w-md text-center">
+                            <h2 className="text-xl md:text-2xl font-semibold text-red-700 mb-2">
+                                Haven't bought any product yet
+                            </h2>
+                            <p className="text-red-600">Go to the gallery page and choose your training pack.</p>
+                        </div>
+                    </div>
+                )}
             </div>
             {selectedExercise && (
                 <>
                     <div className="fixed inset-0 z-50 flex justify-center items-center">
-                        <DownloadPage selectedExerciseProp={selectedExercise} transactionTx={1} />
+                        <DownloadPage selectedExerciseProp={selectedExercise} />
                     </div>
                 </>
             )}

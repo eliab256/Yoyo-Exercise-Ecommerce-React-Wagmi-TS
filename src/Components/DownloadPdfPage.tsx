@@ -5,10 +5,9 @@ import { clearSelectedExercise } from '../redux/selectedExerciseSlice';
 
 export interface DownloadPageProps {
     selectedExerciseProp: ExerciseCardData;
-    transactionTx: number;
 }
 
-const DownloadPage: React.FC<DownloadPageProps> = ({ selectedExerciseProp, transactionTx }) => {
+const DownloadPage: React.FC<DownloadPageProps> = ({ selectedExerciseProp }) => {
     const { name, imageUrl, id } = selectedExerciseProp;
     const dispatch = useDispatch();
 
