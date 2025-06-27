@@ -63,7 +63,7 @@ const ErrorsResume: React.FC<ErrorsResumeProps> = ({ price, id, onStatusChange }
     }, [isConnected, address, balanceData, isBalanceLoading, price, purchasesList, id, onStatusChange]);
 
     return (
-        <div className="mt-4 w-full flex flex-col flex-grow">
+        <div className="mt-4 w-full flex flex-col flex-grow ">
             <ErrorCard
                 status={status.connection}
                 alertMessage="No wallet connected. Please connect your wallet to proceed with the purchase"

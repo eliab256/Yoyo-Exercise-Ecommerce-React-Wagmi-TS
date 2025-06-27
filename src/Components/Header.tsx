@@ -5,7 +5,7 @@ import { setCurrentPage } from '../redux/pagesSlice';
 const Header: React.FC = () => {
     const dispatch = useDispatch();
     return (
-        <header className="flex items-center justify-between p-4 fixed top-0 left-0 w-full bg-white shadow-md z-50  h-12 sm:h-14 md:h-14 lg:h-16 xl:h-18">
+        <header className="p-2 md:p-4 flex items-center justify-between fixed top-0 left-0 w-full bg-white shadow-md z-50 h-12 sm:h-14 md:h-14 lg:h-16 xl:h-18">
             <div className="flex items-center space-x-2 cursor-default pr-2">
                 <img src="../public/Yoyo-Logo-Scritta-Scura.png" alt="Logo" className="h-10 w-10 rounded-full" />
                 <h1 className="hidden md:block text-center font-bold text-lg xl:text-2xl ">

@@ -18,7 +18,7 @@ const ErrorCard: React.FC<ErrorCardProps> = ({ status, alertMessage, confirmMess
                 <div>
                     <div
                         className="bg-blue-500 rounded-full active:scale-95 active:bg-blue-600 
-                       transition transform duration-150 shadow-md cursor-pointer p-2"
+                        transition transform duration-150 shadow-md cursor-pointer p-2"
                     >
                         <LoadingSpinner size="12" color="grey" borderColor="blue" />
                     </div>
@@ -29,12 +29,14 @@ const ErrorCard: React.FC<ErrorCardProps> = ({ status, alertMessage, confirmMess
             return (
                 <div className="flex items-center space-x-2 my-2">
                     <div
-                        className=" bg-green-500 rounded-full active:scale-95 active:bg-green-600 
-                       transition transform duration-150 shadow-md cursor-pointer p-2"
+                        className="bg-green-500 rounded-full active:scale-95 active:bg-green-600 
+                        transition transform duration-150 shadow-md cursor-pointer p-2"
                     >
-                        <CheckIcon className="h-4 w-4 text-white" />
+                        <CheckIcon className="w-4 h-4 md:w-5 md:h-5 lg:w-6 lg:h-6 text-white" />
                     </div>
-                    <p className="text-lg text-green-500 animate-pulse font-bold">{confirmMessage}</p>
+                    <p className="font-bold animate-pulse text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl text-green-500">
+                        {confirmMessage}
+                    </p>
                 </div>
             );
 
@@ -42,12 +44,14 @@ const ErrorCard: React.FC<ErrorCardProps> = ({ status, alertMessage, confirmMess
             return (
                 <div className="flex items-center space-x-2 my-2">
                     <div
-                        className=" bg-red-500 rounded-full active:scale-95 active:bg-red-600 
-                       transition transform duration-150 shadow-md cursor-pointer p-2"
+                        className="bg-red-500 rounded-full active:scale-95 active:bg-red-600 
+                        transition transform duration-150 shadow-md cursor-pointer p-2"
                     >
-                        <XMarkIcon className="h-4 w-4 text-white" />
+                        <XMarkIcon className="w-4 h-4 md:w-5 md:h-5 lg:w-6 lg:h-6 text-white" />
                     </div>
-                    <p className="text-lg text-red-500 animate-pulse font-bold">{alertMessage}</p>
+                    <p className="font-bold animate-pulse text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl text-red-500">
+                        {alertMessage}
+                    </p>
                 </div>
             );
     }
