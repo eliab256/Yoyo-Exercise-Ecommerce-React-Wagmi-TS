@@ -11,11 +11,11 @@ const Header: React.FC = () => {
                 <h1 className="hidden md:block text-center font-bold text-lg xl:text-2xl ">
                     Yoyo Exercise Marketplace
                 </h1>
-                <h1 className="block md:hidden text-center font-bold text-sm sm:text-base">Yoyo</h1>
+                <h1 className="block md:hidden text-center font-bold text-xs sm:text-base">Yoyo</h1>
             </div>
             <div>
                 <button
-                    className="bg-green-500 text-black px-4 py-2 rounded-xl hover:bg-green-300 cursor-pointer text-sm sm:text-base md:text-lg lg:text-xl"
+                    className="bg-green-500 text-black px-3 md:px-4 py-2 rounded-xl hover:bg-green-300 cursor-pointer text-sm sm:text-base md:text-lg lg:text-xl"
                     onClick={() => dispatch(setCurrentPage('gallery'))}
                 >
                     Gallery
@@ -23,22 +23,24 @@ const Header: React.FC = () => {
             </div>
             <div>
                 <button
-                    className="bg-green-500 text-black px-4 py-2 rounded-xl hover:bg-green-300 cursor-pointer text-sm sm:text-base md:text-lg lg:text-xl"
+                    className="bg-green-500 text-black px-3 md:px-4 py-2 rounded-xl hover:bg-green-300 cursor-pointer text-sm sm:text-base md:text-lg lg:text-xl"
                     onClick={() => dispatch(setCurrentPage('yourProducts'))}
                 >
                     Your Products
                 </button>
             </div>
-            <ConnectButton
-                accountStatus={{
-                    smallScreen: 'avatar',
-                    largeScreen: 'full',
-                }}
-                showBalance={{
-                    smallScreen: false,
-                    largeScreen: true,
-                }}
-            />
+            <div className="w-[84px] md:w-auto text-sm md:text-lg lg:text-xl">
+                <ConnectButton
+                    accountStatus={{
+                        smallScreen: 'avatar',
+                        largeScreen: 'full',
+                    }}
+                    showBalance={{
+                        smallScreen: false,
+                        largeScreen: true,
+                    }}
+                />
+            </div>
         </header>
     );
 };
