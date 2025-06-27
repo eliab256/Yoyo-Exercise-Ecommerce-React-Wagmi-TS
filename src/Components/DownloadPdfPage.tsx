@@ -16,29 +16,38 @@ const DownloadPage: React.FC<DownloadPageProps> = ({ selectedExerciseProp }) => 
     return (
         <div
             className="relative flex flex-col items-center rounded-xl bg-white/95 backdrop-blur-sm
-             p-4 sm:p-6 md:p-10 w-4/5 lg:w-1/2 mx-auto my-[20px] border border-gray-300 shadow-lg min-h-[calc(100vh-40px)] cursor-default"
+             p-4 sm:p-6 md:p-8 lg:p-10 w-[90%] sm:w-4/5 lg:w-1/2 mx-auto my-6 border border-gray-300 shadow-lg 
+             min-h-[calc(100vh-48px)] overflow-y-auto cursor-default"
         >
             <div
                 className="absolute top-4 right-4 bg-red-500 rounded-full active:scale-95 active:bg-red-600 
-               transition transform duration-150 shadow-md cursor-pointer p-2"
+               transition-transform duration-150 shadow-md cursor-pointer p-2"
                 onClick={() => dispatch(clearSelectedExercise())}
             >
-                <XMarkIcon className="h-6 w-6 text-white" />
+                <XMarkIcon className="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6 text-white" />
             </div>
 
-            <div className="flex flex-col items-center w-full mb-10">
-                <h2 className="text-4xl font-bold text-center">{name}</h2>
+            <div className="flex flex-col items-center w-full mb-6 sm:mb-8 md:mb-10">
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center">{name}</h2>
             </div>
-            <img src={imageUrl} alt={name} className="w-full max-w-[400px] h-auto object-cover rounded-md mb-10" />
-            <p className="text-gray-600 mb-4 text-center mx-30">
+
+            <img
+                src={imageUrl}
+                alt={name}
+                className="w-full max-w-[220px] sm:max-w-[260px] md:max-w-[300px] h-auto object-cover rounded-md mb-6 sm:mb-8 md:mb-10"
+            />
+
+            <p className="text-gray-600 mb-4 px-4 sm:px-6 md:px-8 text-center text-sm sm:text-base md:text-lg">
                 This is the download page for your exercise. You can download the receipt and bring it to our center to
                 access the corresponding exercises.
             </p>
+
             <span className="absolute bottom-2 left-2 text-xs text-gray-400">Id: {id}</span>
-            <div className="flex flex-col items-center w-full mt-10">
+
+            <div className="flex flex-col items-center w-full mt-6 sm:mt-8 md:mt-10">
                 <button
-                    className="bg-violet-600 text-white text-lg px-8 py-3 rounded-xl shadow-md 
-                    hover:bg-violet-700 active:bg-violet-800 transition transform duration-150 cursor-pointer"
+                    className="bg-violet-600 text-white text-lg sm:text-base md:text-lg px-10 sm:px-8 py-4 sm:py-3 rounded-xl shadow-md 
+                    hover:bg-violet-700 active:bg-violet-800 transition-transform duration-150 cursor-pointer"
                     onClick={() => onDownload()}
                 >
                     Download
