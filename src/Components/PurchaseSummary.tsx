@@ -21,7 +21,7 @@ const PurchaseSummary: React.FC<PurchaseSummaryProps> = ({ selectedExerciseProp 
         balance: statusType;
         alreadyPurchased: statusType;
     } | null>(null);
-    const { addPurchase, isPending } = usePurchases();
+    const { addPurchase, isPending, isConfirmed, isConfirming } = usePurchases();
 
     const handleStatusChange = useCallback(
         (statuses: { connection: statusType; balance: statusType; alreadyPurchased: statusType }) => {
@@ -63,20 +63,20 @@ const PurchaseSummary: React.FC<PurchaseSummaryProps> = ({ selectedExerciseProp 
     return (
         <div
             className="relative flex flex-col items-center rounded-xl bg-white/95 backdrop-blur-sm
-            p-4 sm:p-6 md:p-8 lg:p-10 w-[90%] sm:w-4/5 lg:w-1/2 mx-auto my-6 border border-gray-300 shadow-lg 
-            min-h-[calc(100vh-48px)] max-h-100hv overflow-y-auto cursor-default"
+            p-2 sm:p-3 md:p-4 lg:p-10 w-[95%] sm:w-[90%] md:w-4/5 lg:w-1/2 mx-auto my-3 sm:my-4 md:my-5 lg:my-6
+            border border-gray-300 shadow-lg min-h-[calc(100vh-48px)] max-h-[100vh] overflow-y-auto cursor-default"
         >
             {/* Close Button */}
             <div
-                className="absolute top-4 right-4 bg-red-500 rounded-full active:scale-95 active:bg-red-600 
-        transition-transform duration-150 shadow-md cursor-pointer p-2"
+                className="absolute top-3 right-3 bg-red-500 rounded-full active:scale-95 active:bg-red-600 
+                transition-transform duration-150 shadow-md cursor-pointer p-2"
                 onClick={() => dispatch(clearSelectedExercise())}
             >
                 <XMarkIcon className="h-4 w-4 text-white" />
             </div>
 
             {/* Title */}
-            <div className="flex flex-col items-center w-full mb-4">
+            <div className="flex flex-col items-center w-full mb-1 md:mb-4">
                 <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-center">{name}</h2>
             </div>
 
@@ -85,7 +85,7 @@ const PurchaseSummary: React.FC<PurchaseSummaryProps> = ({ selectedExerciseProp 
                 <img
                     src={imageUrl}
                     alt={name}
-                    className="w-full max-w-[220px] sm:max-w-[260px] md:max-w-[300px] h-auto object-cover rounded-md"
+                    className="w-full max-w-[180px] sm:max-w-[220px] md:max-w-[260px] lg:max-w-[220px] xl:max-w-[300px] h-auto object-cover rounded-md"
                 />
             </div>
 
@@ -113,7 +113,7 @@ const PurchaseSummary: React.FC<PurchaseSummaryProps> = ({ selectedExerciseProp 
             )}
 
             {/* Error Resume */}
-            {showErrorsResume && !isPending && (
+            {showErrorsResume && !isPending && !isConfirmed && !isConfirming && (
                 <div className="w-full mt-4">
                     <ErrorsResume price={price} id={id} onStatusChange={handleStatusChange} />
                 </div>
@@ -124,6 +124,29 @@ const PurchaseSummary: React.FC<PurchaseSummaryProps> = ({ selectedExerciseProp 
                 <div className="mt-6 flex flex-col items-center">
                     <LoadingSpinner />
                     <p className="mt-2 text-gray-600 text-sm sm:text-base">Transaction in progress... please wait.</p>
+                </div>
+            )}
+            {/* Waiting for Confirmation */}
+            {isConfirming && (
+                <div className="mt-6 flex flex-col items-center">
+                    <p
+                        className="text-green-600 text-lg sm:text-xl font-bold text-center
+"
+                    >
+                        Purchase waiting for confirmation on-chain
+                    </p>
+                    <p className="text-gray-600 text-sm sm:text-base">Please, wait for some minutes</p>
+                </div>
+            )}
+
+            {/* Purchase Confirmation */}
+            {isConfirmed && (
+                <div
+                    className="mt-6 flex flex-col items-center text-center
+"
+                >
+                    <p className="text-green-600 text-lg sm:text-xl font-bold">Purchase Successful!</p>
+                    <p className="text-gray-600 text-sm sm:text-base">Thank you for your purchase!</p>
                 </div>
             )}
         </div>
