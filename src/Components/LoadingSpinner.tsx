@@ -1,15 +1,30 @@
-export interface TailwindSpinnerProps {
-    size?: string;
+interface SpinnerProps {
+    size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
     color?: string;
-    borderColor?: string;
+    className?: string;
 }
 
-const TailwindSpinner = ({ size = '12', color = 'purple', borderColor = 'purple' }: TailwindSpinnerProps) => {
+const LoadingSpinner: React.FC<SpinnerProps> = ({ size = 'md', color = 'blue-500', className = '' }) => {
+    const sizeClasses = {
+        xs: 'w-[20%] h-[20%] border-[1px]',
+        sm: 'w-[40%] h-[40%] border-[2px]',
+        md: 'w-[60%] h-[60%] border-[3px]',
+        lg: 'w-[80%] h-[80%] border-[4px]',
+        xl: 'w-full h-full border-[5px]',
+    };
+
     return (
         <div
-            className={`w-${size} h-${size} rounded-full border-4 border-solid border-${borderColor} -200 border-t-${color}-600 animate-spin`}
-        ></div>
+            className={`
+        ${sizeClasses[size]} 
+        border-gray-200 
+        border-t-${color} 
+        rounded-full 
+        animate-spin
+        ${className}
+      `}
+        />
     );
 };
 
-export default TailwindSpinner;
+export default LoadingSpinner;

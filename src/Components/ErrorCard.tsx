@@ -20,7 +20,7 @@ const ErrorCard: React.FC<ErrorCardProps> = ({ status, alertMessage, confirmMess
                         className="bg-blue-500 rounded-full active:scale-95 active:bg-blue-600 
                         transition transform duration-150 shadow-md cursor-pointer p-2"
                     >
-                        <LoadingSpinner size="12" color="grey" borderColor="blue" />
+                        <LoadingSpinner size="xs" color="blue-500" />
                     </div>
                 </div>
             );

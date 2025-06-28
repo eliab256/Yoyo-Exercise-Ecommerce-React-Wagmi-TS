@@ -1,32 +1,28 @@
 import ErrorCard from './ErrorCard';
 import { useAccount, useBalance } from 'wagmi';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { usePurchases } from '../Hooks/usePurchases';
 import { parseEther } from 'viem';
+import { type statusType } from '../redux/errorsStatusSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { setAlreadyPurchasedStatus, setBalanceStatus, setConnectionStatus } from '../redux/errorsStatusSlice';
 
-export type statusType = 'loading' | 'success' | 'error' | null;
 export interface ErrorsResumeProps {
     price: number;
     id: number;
-    onStatusChange: (statuses: { connection: statusType; balance: statusType; alreadyPurchased: statusType }) => void;
 }
 
-const ErrorsResume: React.FC<ErrorsResumeProps> = ({ price, id, onStatusChange }) => {
+const ErrorsResume: React.FC<ErrorsResumeProps> = ({ price, id }) => {
+    const dispatch = useDispatch();
+    const status = useSelector(
+        (state: { errorsStatus: { connection: statusType; balance: statusType; alreadyPurchased: statusType } }) =>
+            state.errorsStatus
+    );
     const { address, isConnected } = useAccount();
     const { purchasesList } = usePurchases();
     const { data: balanceData, isLoading: isBalanceLoading } = useBalance({
         address,
         query: { enabled: !!address },
-    });
-
-    const [status, setStatus] = useState<{
-        connection: statusType;
-        balance: statusType;
-        alreadyPurchased: statusType;
-    }>({
-        connection: 'loading',
-        balance: 'loading',
-        alreadyPurchased: 'loading',
     });
 
     useEffect(() => {
@@ -52,15 +48,10 @@ const ErrorsResume: React.FC<ErrorsResumeProps> = ({ price, id, onStatusChange }
             alreadyPurchasedStatus = !purchasesList.includes(id) ? 'success' : 'error';
         }
 
-        const newStatus = {
-            connection: connectionStatus,
-            balance: balanceStatus,
-            alreadyPurchased: alreadyPurchasedStatus,
-        };
-
-        setStatus(newStatus);
-        onStatusChange(newStatus);
-    }, [isConnected, address, balanceData, isBalanceLoading, price, purchasesList, id, onStatusChange]);
+        dispatch(setConnectionStatus(connectionStatus));
+        dispatch(setBalanceStatus(balanceStatus));
+        dispatch(setAlreadyPurchasedStatus(alreadyPurchasedStatus));
+    }, [isConnected, address, balanceData, isBalanceLoading, price, purchasesList, id, dispatch]);
 
     return (
         <div className="mt-4 w-full flex flex-col flex-grow ">

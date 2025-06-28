@@ -1,11 +1,12 @@
 import { XMarkIcon } from '@heroicons/react/24/solid';
 import { type ExerciseCardData } from '../Data/ExerciseCardData';
-import { useState, useEffect, useCallback } from 'react';
-import ErrorsResume, { type statusType } from './ErrorsResume';
+import { useState, useEffect } from 'react';
+import ErrorsResume from './ErrorsResume';
 import { usePurchases } from '../Hooks/usePurchases';
 import LoadingSpinner from './LoadingSpinner';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { clearSelectedExercise } from '../redux/selectedExerciseSlice';
+import { type statusType, resetErrorsStatus } from '../redux/errorsStatusSlice';
 
 export interface PurchaseSummaryProps {
     selectedExerciseProp: ExerciseCardData;
@@ -16,22 +17,24 @@ const PurchaseSummary: React.FC<PurchaseSummaryProps> = ({ selectedExerciseProp 
     const { name, imageUrl, price, deepDescription, id } = selectedExerciseProp;
     const [showErrorsResume, setShowErrorsResume] = useState(false);
     const [hasPurchased, setHasPurchased] = useState(false);
-    const [errorCheckStatus, setErrorCheckStatus] = useState<{
-        connection: statusType;
-        balance: statusType;
-        alreadyPurchased: statusType;
-    } | null>(null);
-    const { addPurchase, isPending, isConfirmed, isConfirming } = usePurchases();
-
-    const handleStatusChange = useCallback(
-        (statuses: { connection: statusType; balance: statusType; alreadyPurchased: statusType }) => {
-            setErrorCheckStatus(statuses);
-        },
-        []
+    const errorCheckStatus = useSelector(
+        (state: {
+            errorsStatus: {
+                connection: statusType;
+                balance: statusType;
+                alreadyPurchased: statusType;
+            };
+        }) => ({
+            connection: state.errorsStatus.connection,
+            balance: state.errorsStatus.balance,
+            alreadyPurchased: state.errorsStatus.alreadyPurchased,
+        })
     );
 
+    const { addPurchase, isPending, isConfirmed, isConfirming } = usePurchases();
+
     useEffect(() => {
-        setErrorCheckStatus(null);
+        dispatch(resetErrorsStatus());
         setShowErrorsResume(false);
         setHasPurchased(false);
     }, [id]);
@@ -47,7 +50,7 @@ const PurchaseSummary: React.FC<PurchaseSummaryProps> = ({ selectedExerciseProp 
             const timer = setTimeout(() => {
                 console.log('Acquisto effettuato!');
                 addPurchase(id, price);
-                setErrorCheckStatus(null);
+                dispatch(resetErrorsStatus());
                 setHasPurchased(true);
             }, 1500);
 
@@ -115,7 +118,7 @@ const PurchaseSummary: React.FC<PurchaseSummaryProps> = ({ selectedExerciseProp 
             {/* Error Resume */}
             {showErrorsResume && !isPending && !isConfirmed && !isConfirming && (
                 <div className="w-full mt-4">
-                    <ErrorsResume price={price} id={id} onStatusChange={handleStatusChange} />
+                    <ErrorsResume price={price} id={id} />
                 </div>
             )}
 
