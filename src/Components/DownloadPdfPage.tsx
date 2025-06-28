@@ -16,8 +16,8 @@ const DownloadPage: React.FC<DownloadPageProps> = ({ selectedExerciseProp }) => 
     return (
         <div
             className="relative flex flex-col items-center rounded-xl bg-white/95 backdrop-blur-sm
-             p-4 sm:p-6 md:p-8 lg:p-10 w-[90%] sm:w-4/5 lg:w-1/2 mx-auto my-6 border border-gray-300 shadow-lg 
-             min-h-[calc(100vh-48px)] overflow-y-auto cursor-default"
+            p-2 sm:p-3 md:p-4 lg:p-10 w-[95%] sm:w-[90%] md:w-4/5 lg:w-1/2 mx-auto my-3 sm:my-4 md:my-5 lg:my-6
+            border border-gray-300 shadow-lg min-h-[calc(100vh-48px)] max-h-[100vh] overflow-y-auto cursor-default"
         >
             <div
                 className="absolute top-4 right-4 bg-red-500 rounded-full active:scale-95 active:bg-red-600 

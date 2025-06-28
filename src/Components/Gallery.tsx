@@ -3,12 +3,24 @@ import PurchaseSummary from './PurchaseSummary';
 import exercisesCardData from '../Data/ExerciseCardData';
 import { useSelector } from 'react-redux';
 import { type ExerciseId } from '../redux/selectedExerciseSlice';
+import { useEffect } from 'react';
 
 const Gallery: React.FC = () => {
     const currentExerciseIdSelected = useSelector(
         (state: { selectedExercise: { id: ExerciseId } }) => state.selectedExercise.id
     );
     const selectedExercise = exercisesCardData.find(ex => ex.id === currentExerciseIdSelected);
+
+    useEffect(() => {
+        if (currentExerciseIdSelected !== null) {
+            document.body.classList.add('overflow-hidden');
+        } else {
+            document.body.classList.remove('overflow-hidden');
+        }
+        return () => {
+            document.body.classList.remove('overflow-hidden');
+        };
+    }, [currentExerciseIdSelected]);
 
     return (
         <div className="relative">

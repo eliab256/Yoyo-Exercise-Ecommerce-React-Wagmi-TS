@@ -21,6 +21,17 @@ const YourProductsPage: React.FC = () => {
     const selectedExercise = exercisesCardData.find(ex => ex.id === currentExerciseIdSelected);
 
     useEffect(() => {
+        if (currentExerciseIdSelected !== null) {
+            document.body.classList.add('overflow-hidden');
+        } else {
+            document.body.classList.remove('overflow-hidden');
+        }
+        return () => {
+            document.body.classList.remove('overflow-hidden');
+        };
+    }, [currentExerciseIdSelected]);
+
+    useEffect(() => {
         if (!address) {
             setPurchasedExercises([]);
             setLoading(false);
