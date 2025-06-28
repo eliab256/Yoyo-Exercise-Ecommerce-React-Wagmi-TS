@@ -1,5 +1,5 @@
 import { XMarkIcon, CheckIcon } from '@heroicons/react/24/outline';
-import { type statusType } from '../Components/ErrorsResume';
+import { type statusType } from '../redux/errorsStatusSlice';
 import LoadingSpinner from './LoadingSpinner';
 
 export interface ErrorCardProps {
