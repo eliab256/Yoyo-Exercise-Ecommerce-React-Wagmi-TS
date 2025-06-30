@@ -1,6 +1,6 @@
 # Yoyo Exercise Marketplace (Elia Bordoni react, typescript e web3 Project)
 
-Project is deployed here -> [Yoyo Exercise Marketplace](linkvercelqui)
+Project is deployed here -> [Yoyo Exercise Marketplace](https://yoyo-exercise-marketplace.vercel.app/)
 
 # Indice
 
