@@ -5,7 +5,7 @@ import exercisesCardData from '../Data/ExerciseCardData';
 import { type ExerciseCardData } from '../Data/ExerciseCardData';
 import ExerciseCard from './ExerciseCard';
 import LoadingSpinner from './LoadingSpinner';
-import DownloadPage from './DownloadPdfPage';
+import DownloadPage from './DownloadPage';
 import { useSelector } from 'react-redux';
 import { type ExerciseId } from '../redux/selectedExerciseSlice';
 

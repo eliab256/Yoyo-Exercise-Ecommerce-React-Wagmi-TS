@@ -132,10 +132,7 @@ const PurchaseSummary: React.FC<PurchaseSummaryProps> = ({ selectedExerciseProp 
             {/* Waiting for Confirmation */}
             {isConfirming && (
                 <div className="mt-6 flex flex-col items-center">
-                    <p
-                        className="text-green-600 text-lg sm:text-xl font-bold text-center
-"
-                    >
+                    <p className="text-green-600 text-lg sm:text-xl font-bold text-center">
                         Purchase waiting for confirmation on-chain
                     </p>
                     <p className="text-gray-600 text-sm sm:text-base">Please, wait for some minutes</p>
@@ -144,10 +141,7 @@ const PurchaseSummary: React.FC<PurchaseSummaryProps> = ({ selectedExerciseProp 
 
             {/* Purchase Confirmation */}
             {isConfirmed && (
-                <div
-                    className="mt-6 flex flex-col items-center text-center
-"
-                >
+                <div className="mt-6 flex flex-col items-center text-center">
                     <p className="text-green-600 text-lg sm:text-xl font-bold">Purchase Successful!</p>
                     <p className="text-gray-600 text-sm sm:text-base">Thank you for your purchase!</p>
                 </div>

@@ -11,7 +11,9 @@ const DownloadPage: React.FC<DownloadPageProps> = ({ selectedExerciseProp }) => 
     const { name, imageUrl, id } = selectedExerciseProp;
     const dispatch = useDispatch();
 
-    const onDownload = async () => {};
+    const onDownload = async () => {
+        console.log('Download initiated for exercise:', name);
+    };
 
     return (
         <div
