@@ -1,7 +1,7 @@
 import ErrorCard from './ErrorCard';
 import { useAccount, useBalance } from 'wagmi';
 import { useEffect } from 'react';
-import { usePurchases } from '../hooks_temp/usePurchases';
+import { usePurchases } from '../hooks/usePurchases';
 import { parseEther } from 'viem';
 import { type statusType } from '../redux/errorsStatusSlice';
 import { useDispatch, useSelector } from 'react-redux';
