@@ -1,6 +1,6 @@
 import ExerciseCard from './ExerciseCard';
 import PurchaseSummary from './PurchaseSummary';
-import exercisesCardData from '../data/ExerciseCardData';
+import exercisesCardData from '../data_temp/ExerciseCardData';
 import { useSelector } from 'react-redux';
 import { type ExerciseId } from '../redux/selectedExerciseSlice';
 import { useEffect } from 'react';

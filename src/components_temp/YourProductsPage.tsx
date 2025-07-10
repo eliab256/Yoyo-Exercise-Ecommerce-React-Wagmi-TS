@@ -1,8 +1,8 @@
 import { useAccount } from 'wagmi';
-import { usePurchases } from '../hooks/usePurchases';
+import { usePurchases } from '../hooks_temp/usePurchases';
 import { useState, useEffect } from 'react';
-import exercisesCardData from '../data/ExerciseCardData';
-import { type ExerciseCardData } from '../data/ExerciseCardData';
+import exercisesCardData from '../data_temp/ExerciseCardData';
+import { type ExerciseCardData } from '../data_temp/ExerciseCardData';
 import ExerciseCard from './ExerciseCard';
 import LoadingSpinner from './LoadingSpinner';
 import DownloadPage from './DownloadPage';

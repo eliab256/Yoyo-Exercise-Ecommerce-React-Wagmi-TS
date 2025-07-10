@@ -1,5 +1,5 @@
 import { useEffect, useCallback, useMemo } from 'react';
-import { contractAbi, chainsToContractAddress } from '../data/SmartContractData';
+import { contractAbi, chainsToContractAddress } from '../data_temp/SmartContractData';
 import { useReadContract, useWriteContract, useChainId, useAccount, useWaitForTransactionReceipt } from 'wagmi';
 import { parseEther } from 'viem';
 

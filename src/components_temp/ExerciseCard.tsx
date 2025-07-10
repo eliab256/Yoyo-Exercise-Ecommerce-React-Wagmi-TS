@@ -1,8 +1,8 @@
-import { useEthereumPrice } from '../hooks/useEthereumPrice';
+import { useEthereumPrice } from '../hooks_temp/useEthereumPrice';
 import { useMemo } from 'react';
-import { type ExerciseCardData } from '../data/ExerciseCardData';
+import { type ExerciseCardData } from '../data_temp/ExerciseCardData';
 import { ShoppingCartIcon } from '@heroicons/react/24/solid';
-import { usePurchases } from '../hooks/usePurchases';
+import { usePurchases } from '../hooks_temp/usePurchases';
 import { useSelector } from 'react-redux';
 import { type PageState } from '../redux/pagesSlice';
 import { useDispatch } from 'react-redux';

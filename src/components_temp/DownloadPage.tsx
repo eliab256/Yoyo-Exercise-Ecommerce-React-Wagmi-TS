@@ -1,4 +1,4 @@
-import { type ExerciseCardData } from '../data/ExerciseCardData';
+import { type ExerciseCardData } from '../data_temp/ExerciseCardData';
 import { XMarkIcon } from '@heroicons/react/24/solid';
 import { useDispatch } from 'react-redux';
 import { clearSelectedExercise } from '../redux/selectedExerciseSlice';
