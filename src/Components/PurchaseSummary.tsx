@@ -135,7 +135,7 @@ const PurchaseSummary: React.FC<PurchaseSummaryProps> = ({ selectedExerciseProp 
                     <p className="text-green-600 text-lg sm:text-xl font-bold text-center">
                         Purchase waiting for confirmation on-chain
                     </p>
-                    <p className="text-gray-600 text-sm sm:text-base">Please, wait for some minutes</p>
+                    <p className="text-gray-600 text-sm sm:text-base">Please, wait for some seconds</p>
                 </div>
             )}
 
