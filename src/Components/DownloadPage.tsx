@@ -15,6 +15,7 @@ const DownloadPage: React.FC<DownloadPageProps> = ({ selectedExerciseProp }) => 
     const dispatch = useDispatch();
 
     const onDownload = async () => {
+        //Create a PDF receipt
         const pdf = new jsPDF();
 
         // Title
