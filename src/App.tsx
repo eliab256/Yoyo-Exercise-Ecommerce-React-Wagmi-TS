@@ -1,6 +1,6 @@
-import Header from './Components/Header';
-import Gallery from './Components/Gallery';
-import YourProductsPage from './Components/YourProductsPage';
+import Header from './components/Header';
+import Gallery from './components/Gallery';
+import YourProductsPage from './components/YourProductsPage';
 import { useSelector } from 'react-redux';
 import { type PageState } from './redux/pagesSlice';
 

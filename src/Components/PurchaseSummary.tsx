@@ -1,8 +1,8 @@
 import { XMarkIcon } from '@heroicons/react/24/solid';
-import { type ExerciseCardData } from '../Data/ExerciseCardData';
+import { type ExerciseCardData } from '../data/ExerciseCardData';
 import { useState, useEffect } from 'react';
 import ErrorsResume from './ErrorsResume';
-import { usePurchases } from '../Hooks/usePurchases';
+import { usePurchases } from '../hooks/usePurchases';
 import LoadingSpinner from './LoadingSpinner';
 import { useDispatch, useSelector } from 'react-redux';
 import { clearSelectedExercise } from '../redux/selectedExerciseSlice';
